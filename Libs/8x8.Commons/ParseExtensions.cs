@@ -1,5 +1,4 @@
 ﻿using _8x8.Interfaces;
-using _8x8.RulesStrategy;
 using FastMember;
 using System;
 using System.Collections.Generic;
@@ -41,13 +40,13 @@ namespace _8x8
             }
         }
 
-        public static IEnumerable<IStrategyWrapper> CreateRuleStrategy<TStrategy>(this IEnumerable<TStrategy> strategies)
-            where TStrategy : IStrategy
-        {
-            foreach (var strategy in strategies)
-            {
-                yield return new HashStrategyWrapper(strategy);
-            }
-        }
+        //public static IEnumerable<IStrategyWrapper> CreateRuleStrategy<TStrategy>(this IEnumerable<TStrategy> strategies)
+        //    where TStrategy : IStrategy
+        //{
+        //    foreach (var strategy in strategies)
+        //    {
+        //        yield return new HashStrategyWrapper(strategy);
+        //    }
+        //}
     }
 }

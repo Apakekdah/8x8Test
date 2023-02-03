@@ -1,9 +1,10 @@
 ﻿using _8x8.Interfaces;
+using Autofac;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
-namespace _8x8.RulesStrategy
+namespace _8x8.HashRulesStrategy
 {
     public class HashStrategyWrapper : IStrategyWrapper
     {
@@ -12,19 +13,17 @@ namespace _8x8.RulesStrategy
         private readonly IStrategy strategy;
         private readonly IFilterRuleStrategy filterRuleStrategy;
 
-        public HashStrategyWrapper(IStrategy strategy)
+        public HashStrategyWrapper(IStrategy strategy, ILifetimeScope life)
         {
             this.strategy = strategy;
-            filterRuleStrategy = new HashFilterRuleStrategy((IFilterRule)strategy);
-
-            Init();
+            filterRuleStrategy = life.ResolveNamed<IFilterRuleStrategy>(life.Tag.ToString(), new NamedParameter("filterRule", strategy));
         }
 
         public IStrategy Strategy => strategy;
 
-        public IEnumerable<string> Segments { get; private set; }
+        public IEnumerable<string> Segments => filterRuleStrategy.Segments;
 
-        public int Hash { get; private set; }
+        public int Hash => filterRuleStrategy.Hash;
 
         public int Priority { get; private set; }
 
@@ -35,21 +34,5 @@ namespace _8x8.RulesStrategy
                 return 0;
             return 1;
         }
-
-        #region Private 
-
-        private void Init()
-        {
-            ExtractStrategy();
-        }
-
-        private void ExtractStrategy()
-        {
-            IBaseRule rule = (IBaseRule)strategy;
-
-            Priority = rule.Priority;
-        }
-
-        #endregion
     }
 }

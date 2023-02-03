@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace _8x8.RulesStrategy
+namespace _8x8.HashRulesStrategy
 {
     public class HashFilterRuleStrategy : IFilterRuleStrategy
     {
@@ -109,7 +109,7 @@ namespace _8x8.RulesStrategy
                 {
                     if (ANY.Equals((string)value, StringComparison.InvariantCultureIgnoreCase))
                         continue;
-                    hash += ((string)value).Select(x => x * (idx + 1)).Sum();
+                    hash += ((string)value).Select(x => x * (idx + 1)).Sum() * idx;
                 }
                 else
                 {

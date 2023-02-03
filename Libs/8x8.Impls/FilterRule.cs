@@ -1,6 +1,6 @@
 ﻿using _8x8.Interfaces;
 
-namespace _8x8.RulesStrategy
+namespace _8x8.Impls
 {
     public class FilterRule4<TFilter1, TFilter2, TFilter3, TFilter4> : IFilterRule<TFilter1, TFilter2, TFilter3, TFilter4>
     {

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace _8x8.Interfaces
+﻿namespace _8x8.Interfaces
 {
-    public interface IStrategyWrapper : IFilterInfo, IComparable<IStrategyWrapper>
+    public interface IStrategyWrapper : IFilterInfo
     {
         int Priority { get; }
         IStrategy Strategy { get; }
