@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="..\Docs\SampleData.csv" Link="SampleData.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Libs\8x8.Commons\8x8.Commons.csproj" />
+    <ProjectReference Include="..\Libs\8x8.Impls\8x8.Impls.csproj" />
+    <ProjectReference Include="..\Libs\8x8.Interfaces\8x8.Interfaces.csproj" />
+    <ProjectReference Include="..\Libs\8x8.Models\8x8.Models.csproj" />
+  </ItemGroup>
+
+</Project>
