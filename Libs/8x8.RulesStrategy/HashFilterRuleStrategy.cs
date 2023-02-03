@@ -9,8 +9,6 @@ namespace _8x8.HashRulesStrategy
 {
     public class HashFilterRuleStrategy : IFilterRuleStrategy
     {
-        private static readonly string ANY = "<ANY>";
-
         private readonly IDictionary<string, HashStorage> storage;
 
         public HashFilterRuleStrategy(IFilterRule filterRule)
@@ -67,7 +65,7 @@ namespace _8x8.HashRulesStrategy
                 value = accesor[filterRule, filter.Name];
                 if (filter.PropertyType.Equals(stringType))
                 {
-                    if (ANY.Equals((string)value, StringComparison.InvariantCultureIgnoreCase))
+                    if (StrategyFilterRule.ANY.Equals((string)value, StringComparison.InvariantCultureIgnoreCase))
                         continue;
                     hash += ((string)value).Select(x => x * (idx + 1)).Sum();
                 }
@@ -107,7 +105,7 @@ namespace _8x8.HashRulesStrategy
                 value = accesor[filterRule, pi.Name];
                 if (pi.PropertyType.Equals(stringType))
                 {
-                    if (ANY.Equals((string)value, StringComparison.InvariantCultureIgnoreCase))
+                    if (StrategyFilterRule.ANY.Equals((string)value, StringComparison.InvariantCultureIgnoreCase))
                         continue;
                     hash += ((string)value).Select(x => x * (idx + 1)).Sum() * idx;
                 }
