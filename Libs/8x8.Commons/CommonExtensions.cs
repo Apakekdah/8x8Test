@@ -1,9 +1,7 @@
-﻿using _8x8.Impls;
-using _8x8.Interfaces;
-using System;
+﻿using _8x8.Interfaces;
+using _8x8.RulesStrategy;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
+using System.Linq;
 
 namespace _8x8
 {
@@ -13,5 +11,13 @@ namespace _8x8
         {
             return new FilterRule4<TFilter1, TFilter2, TFilter3, TFilter4>(filter1, filter2, filter3, filter4);
         }
+
+        public static bool IsEmptyArray<T>(this IEnumerable<T> array)
+        {
+            if (array == null) return true;
+            else if (!array.Any()) return true;
+            return false;
+        }
+
     }
 }

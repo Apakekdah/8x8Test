@@ -1,19 +1,21 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.4.33213.308
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{51A961AF-CD9C-4AE6-B10F-5B2FCB64B8E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "8x8.Interfaces", "Libs\8x8.Interfaces\8x8.Interfaces.csproj", "{D40F0B40-6C39-4287-9C6F-81927CFB5853}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "8x8.Interfaces", "Libs\8x8.Interfaces\8x8.Interfaces.csproj", "{D40F0B40-6C39-4287-9C6F-81927CFB5853}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "8x8.Models", "Libs\8x8.Models\8x8.Models.csproj", "{E425AD17-04B9-4E54-88C9-CE03BD00214E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "8x8.Models", "Libs\8x8.Models\8x8.Models.csproj", "{E425AD17-04B9-4E54-88C9-CE03BD00214E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "8x8.Impls", "Libs\8x8.Impls\8x8.Impls.csproj", "{07E15487-A6CE-4009-8663-79CBE52CE134}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "8x8.Impls", "Libs\8x8.Impls\8x8.Impls.csproj", "{07E15487-A6CE-4009-8663-79CBE52CE134}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "8x8.Commons", "Libs\8x8.Commons\8x8.Commons.csproj", "{EB240181-E78A-4A54-B2BB-5201D0BC9A13}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "8x8.Commons", "Libs\8x8.Commons\8x8.Commons.csproj", "{EB240181-E78A-4A54-B2BB-5201D0BC9A13}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{CB8D0C56-76FA-4055-89A5-7E0C9F09EDA0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{CB8D0C56-76FA-4055-89A5-7E0C9F09EDA0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "8x8.RulesStrategy", "Libs\8x8.RulesStrategy\8x8.RulesStrategy.csproj", "{C70B18A7-0148-4188-910F-E85FC9CF6AF9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,10 @@ Global
 		{CB8D0C56-76FA-4055-89A5-7E0C9F09EDA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CB8D0C56-76FA-4055-89A5-7E0C9F09EDA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CB8D0C56-76FA-4055-89A5-7E0C9F09EDA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C70B18A7-0148-4188-910F-E85FC9CF6AF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C70B18A7-0148-4188-910F-E85FC9CF6AF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C70B18A7-0148-4188-910F-E85FC9CF6AF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C70B18A7-0148-4188-910F-E85FC9CF6AF9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -50,6 +56,7 @@ Global
 		{E425AD17-04B9-4E54-88C9-CE03BD00214E} = {51A961AF-CD9C-4AE6-B10F-5B2FCB64B8E7}
 		{07E15487-A6CE-4009-8663-79CBE52CE134} = {51A961AF-CD9C-4AE6-B10F-5B2FCB64B8E7}
 		{EB240181-E78A-4A54-B2BB-5201D0BC9A13} = {51A961AF-CD9C-4AE6-B10F-5B2FCB64B8E7}
+		{C70B18A7-0148-4188-910F-E85FC9CF6AF9} = {51A961AF-CD9C-4AE6-B10F-5B2FCB64B8E7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A6AB682A-976A-4113-A4BC-6716F11F9861}

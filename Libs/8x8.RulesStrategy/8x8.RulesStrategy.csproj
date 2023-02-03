@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>_8x8.Commons</RootNamespace>
+    <RootNamespace>_8x8.RulesStrategy</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,7 +11,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\8x8.Interfaces\8x8.Interfaces.csproj" />
-    <ProjectReference Include="..\8x8.RulesStrategy\8x8.RulesStrategy.csproj" />
   </ItemGroup>
 
 </Project>
