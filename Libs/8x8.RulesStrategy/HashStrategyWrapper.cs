@@ -8,15 +8,23 @@ namespace _8x8.HashRulesStrategy
 {
     public class HashStrategyWrapper : IStrategyWrapper
     {
-        public static readonly string ANY = "<ANY>";
-
         private readonly IStrategy strategy;
         private readonly IFilterRuleStrategy filterRuleStrategy;
 
         public HashStrategyWrapper(IStrategy strategy, ILifetimeScope life)
         {
             this.strategy = strategy;
+            Init();
             filterRuleStrategy = life.ResolveNamed<IFilterRuleStrategy>(life.Tag.ToString(), new NamedParameter("filterRule", strategy));
+        }
+
+        private void Init()
+        {
+            IBaseRule rule = (IBaseRule)strategy;
+            if (rule != null)
+            {
+                Priority = rule.Priority;
+            }
         }
 
         public IStrategy Strategy => strategy;

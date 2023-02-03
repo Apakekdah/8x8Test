@@ -22,6 +22,8 @@ namespace ConsoleApp1
                     new NamedParameter("method", KeyDI.HASH));
             sff.Load("SampleData.csv");
 
+            sff.FindRule(CommonExtensions.ParseToFilterRule("AAA", "BBB", "CCC", "DDD"));
+
             //IDataLoader loader = IoC.Life.ResolveNamed<IDataLoader>(KeyDI.DATA_LOADER_CSV, new NamedParameter("separator", ","));
             //var dataset = loader.Load<StrategyRule4<string, string, string, string>, IStrategyWrapper>("SampleData.csv");
 

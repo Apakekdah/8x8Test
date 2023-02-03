@@ -18,6 +18,11 @@ namespace _8x8.Impls
             this.storage = storage;
         }
 
+        public TStrategy FindRule(IFilterRule filterRule)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Load(string path)
         {
             Load(path, ",");
