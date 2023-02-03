@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\8x8.Constants\8x8.Constants.csproj" />
     <ProjectReference Include="..\8x8.Interfaces\8x8.Interfaces.csproj" />
   </ItemGroup>
 

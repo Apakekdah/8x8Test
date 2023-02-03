@@ -24,6 +24,7 @@ namespace _8x8.HashRulesStrategy
             if (rule != null)
             {
                 Priority = rule.Priority;
+                RuleId = rule.RuleId;
             }
         }
 
@@ -34,6 +35,8 @@ namespace _8x8.HashRulesStrategy
         public int Hash => filterRuleStrategy.Hash;
 
         public int Priority { get; private set; }
+
+        public int RuleId { get; private set; }
 
         public int CompareTo([AllowNull] IStrategyWrapper other)
         {

@@ -6,5 +6,6 @@ namespace _8x8.Interfaces
     {
         public IFilterRule FilterRule { get; }
         public IEqualityComparer<IFilterRule> Comparer { get; }
+        public bool Compare(int hash, IEnumerable<string> segments);
     }
 }

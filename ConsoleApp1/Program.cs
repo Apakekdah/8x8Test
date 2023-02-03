@@ -5,6 +5,7 @@ using _8x8.Interfaces;
 using _8x8.Models;
 using Autofac;
 using System;
+using System.Diagnostics;
 
 namespace ConsoleApp1
 {
@@ -16,14 +17,29 @@ namespace ConsoleApp1
 
             Register();
 
+            Stopwatch sw = new Stopwatch();
+
+            sw.Start();
+
             var sff = IoC
                 .Life
                 .ResolveNamed<IStrategyFeatureFilter<StrategyRule4<string, string, string, string>>>(KeyDI.STRATEGY_FILTER_4,
                     new NamedParameter("method", KeyDI.HASH));
-            sff.Load("SampleData.csv");
+            sff.Load("sample_rules.csv");
 
-            sff.FindRule(new FilterRule4<string, string, string, string>("AAA", "BBB", "CCC", "DDD"));
+            sw.Stop();
 
+            Console.WriteLine($"Load time Elapsed : {sw.Elapsed}");
+
+            sw.Restart();
+
+            var strategy = sff.FindRule(new FilterRule4<string, string, string, string>("AAA", "BBB", "CCC", "AAA"));
+
+            sw.Stop();
+
+            Console.WriteLine($"Find Elapsed : {sw.Elapsed}");
+
+            Console.WriteLine($"Found : \n{strategy}");
             //IDataLoader loader = IoC.Life.ResolveNamed<IDataLoader>(KeyDI.DATA_LOADER_CSV, new NamedParameter("separator", ","));
             //var dataset = loader.Load<StrategyRule4<string, string, string, string>, IStrategyWrapper>("SampleData.csv");
 

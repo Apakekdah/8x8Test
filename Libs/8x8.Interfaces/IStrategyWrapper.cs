@@ -2,6 +2,7 @@
 {
     public interface IStrategyWrapper : IFilterInfo
     {
+        int RuleId { get; }
         int Priority { get; }
         IStrategy Strategy { get; }
     }
