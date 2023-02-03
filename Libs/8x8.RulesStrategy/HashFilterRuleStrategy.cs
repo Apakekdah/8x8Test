@@ -67,7 +67,7 @@ namespace _8x8.HashRulesStrategy
 
         private KeyValuePair<string, HashStorage> CreateStrategyHashSegment(bool init, IFilterRule filterRule, params string[] segments)
         {
-            int hash = 17;
+            int hash = 1;
             Type stringType = typeof(string);
 
             TypeAccessor accesor = TypeAccessor.Create(filterRule.GetType());
@@ -101,9 +101,8 @@ namespace _8x8.HashRulesStrategy
                 {
                     if (StrategyFilterRule.ANY.Equals((string)value, StringComparison.InvariantCultureIgnoreCase))
                         continue;
-                    //hash += ((string)value).Select(x => x * (idx + 1)).Sum() * idx;
                     segmentHash += CalculateHash((string)value);
-                    hash *= 23 + segmentHash;
+                    hash *= segmentHash;
                 }
                 else
                 {
@@ -132,28 +131,13 @@ namespace _8x8.HashRulesStrategy
 
         static int CalculateHash(string read)
         {
-            //int hashedValue = 307445734;
-            //for (int i = 0; i < read.Length; i++)
-            //{
-            //    hashedValue += read[i];
-            //    hashedValue *= 307445734;
-            //}
-            //return hashedValue;
-            var hash1 = (5381 << 16) + 5381;
-            var hash2 = hash1;
-
-            for (int i = 0; i < read.Length; i += 2)
+            int hashedValue = 307445734;
+            for (int i = 0; i < read.Length; i++)
             {
-                hash1 = ((hash1 << 5) + hash1) ^ read[i];
-                if (i == read.Length - 1)
-                {
-                    break;
-                }
-
-                hash2 = ((hash2 << 5) + hash2) ^ read[i + 1];
+                hashedValue += read[i];
+                hashedValue *= 307445734;
             }
-
-            return hash1 + (hash2 * 1566083941);
+            return hashedValue;
         }
 
         class HashStorage
