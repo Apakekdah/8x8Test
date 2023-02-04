@@ -40,24 +40,11 @@ namespace ConsoleApp1
             Console.WriteLine($"Find Elapsed : {sw.Elapsed}");
 
             Console.WriteLine($"Found : \n{strategy}");
-            //IDataLoader loader = IoC.Life.ResolveNamed<IDataLoader>(KeyDI.DATA_LOADER_CSV, new NamedParameter("separator", ","));
-            //var dataset = loader.Load<StrategyRule4<string, string, string, string>, IStrategyWrapper>("SampleData.csv");
-
-            //foreach (var stg in dataset)
-            //{
-            //    Console.WriteLine(stg);
-            //}
-
-            //IEngineStrategy engineStrategy = new EngineStrategy(dataset);
-            //engineStrategy.FindRule(CommonExtensions.ParseToFilterRule("AAA", "BBB", "CCC", "DDD"));
         }
 
         static void Register()
         {
             ContainerBuilder builder = new ContainerBuilder();
-
-            //builder.RegisterType<CsvLoader>().Named<IDataLoader>(KeyDI.DATA_LOADER_CSV).InstancePerLifetimeScope();
-            //builder.RegisterGeneric(typeof(CsvLoader<StrategyRule4<string, string, string, string>,>)).Name.SingleInstance();
 
             builder.RegisterType<StrategyFeatureFilter<StrategyRule4<string, string, string, string>>>()
                 .Named<IStrategyFeatureFilter<StrategyRule4<string, string, string, string>>>(KeyDI.STRATEGY_FILTER_4)
