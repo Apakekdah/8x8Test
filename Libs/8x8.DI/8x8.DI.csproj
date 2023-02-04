@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\8x8.HashRulesStrategy\8x8.HashRulesStrategy.csproj" />
     <ProjectReference Include="..\8x8.Impls\8x8.Impls.csproj" />
     <ProjectReference Include="..\8x8.Models\8x8.Models.csproj" />
   </ItemGroup>

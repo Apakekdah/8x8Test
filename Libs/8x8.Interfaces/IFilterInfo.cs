@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace _8x8.Interfaces
 {
-    public interface IFilterInfo
+    public interface IFilterInfo<T>
     {
         IEnumerable<string> Segments { get; }
-        int Hash { get; }
+        T Hash { get; }
     }
 }

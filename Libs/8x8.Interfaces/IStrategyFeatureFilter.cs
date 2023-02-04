@@ -3,6 +3,6 @@
     public interface IStrategyFeatureFilter<TStrategy> : IDataLoader
         where TStrategy : IStrategy
     {
-        TStrategy FindRule(IFilterRule filterRule);
+        TStrategy FindRule<T>(IFilterRule filterRule);
     }
 }

@@ -4,15 +4,13 @@ using System.Collections.Generic;
 
 namespace _8x8.HashRulesStrategy
 {
-    public class HashStrategyWrapper : Disposable, IStrategyWrapper
+    public class HashStrategyWrapper : Disposable, IStrategyWrapper<int>
     {
-        private readonly IFilterRuleStrategy filterRuleStrategy;
-
         public HashStrategyWrapper(IStrategy strategy, ILifetimeScope life)
         {
             Strategy = strategy;
             Init();
-            filterRuleStrategy = life.ResolveNamed<IFilterRuleStrategy>(life.Tag.ToString(), new NamedParameter("filterRule", strategy));
+            FilterRuleStrategy = life.ResolveNamed<IFilterRuleStrategy<int>>(life.Tag.ToString(), new NamedParameter("filterRule", strategy));
         }
 
         private void Init()
@@ -27,18 +25,20 @@ namespace _8x8.HashRulesStrategy
 
         public IStrategy Strategy { get; private set; }
 
-        public IEnumerable<string> Segments => filterRuleStrategy.Segments;
+        public IEnumerable<string> Segments => FilterRuleStrategy.Segments;
 
-        public int Hash => filterRuleStrategy.Hash;
+        public int Hash => FilterRuleStrategy.Hash;
 
         public int Priority { get; private set; }
 
         public int RuleId { get; private set; }
 
+        public IFilterRuleStrategy<int> FilterRuleStrategy { get; private set; }
+
         protected override void DisposeCore()
         {
             base.DisposeCore();
-            filterRuleStrategy.Dispose();
+            FilterRuleStrategy.Dispose();
         }
     }
 }

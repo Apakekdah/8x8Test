@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "8x8.Commons", "Libs\8x8.Com
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{CB8D0C56-76FA-4055-89A5-7E0C9F09EDA0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "8x8.HashRulesStrategy", "Libs\8x8.RulesStrategy\8x8.HashRulesStrategy.csproj", "{C70B18A7-0148-4188-910F-E85FC9CF6AF9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "8x8.HashRulesStrategy", "Libs\8x8.HashRulesStrategy\8x8.HashRulesStrategy.csproj", "{C70B18A7-0148-4188-910F-E85FC9CF6AF9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "8x8.DI", "Libs\8x8.DI\8x8.DI.csproj", "{6FEC93C3-62BE-4EE1-9B12-6504BCA1C35E}"
 EndProject

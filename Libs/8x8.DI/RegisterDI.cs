@@ -27,7 +27,9 @@ namespace _8x8
             builder.RegisterType<StrategyRule4<string, string, string, string>>().AsImplementedInterfaces().InstancePerLifetimeScope();
 
             /// Hash
+            builder.RegisterType<HashStrategyWrapper>().Named<IStrategyWrapper<int>>(KeyDI.HASH);
             builder.RegisterType<HashStrategyWrapper>().Named<IStrategyWrapper>(KeyDI.HASH);
+            builder.RegisterType<HashFilterRuleStrategy>().Named<IFilterRuleStrategy<int>>(KeyDI.HASH);
             builder.RegisterType<HashFilterRuleStrategy>().Named<IFilterRuleStrategy>(KeyDI.HASH);
 
             IoC.SetLifetime(builder.Build());

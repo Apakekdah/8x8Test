@@ -9,6 +9,6 @@ namespace _8x8.Interfaces
         void Add(TStrategy strategy);
         void AddRange(IEnumerable<TStrategy> strategies);
         void Remove(TStrategy strategy);
-        IEnumerable<TStrategy> Find(IFilterRuleStrategy strategy);
+        IEnumerable<TStrategy> Find<T>(IFilterRuleStrategy strategy);
     }
 }

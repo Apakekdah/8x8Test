@@ -21,12 +21,12 @@ namespace _8x8.Impls
             this.storage = storage;
         }
 
-        public TStrategy FindRule(IFilterRule filterRule)
+        public TStrategy FindRule<T>(IFilterRule filterRule)
         {
             using (var filterRuleStrategy = scope.ResolveNamed<IFilterRuleStrategy>(scope.Tag.ToString(),
                 new NamedParameter("filterRule", filterRule)))
             {
-                var founds = storage.Find(filterRuleStrategy);
+                var founds = storage.Find<T>(filterRuleStrategy);
                 if (founds.Any())
                 {
                     founds = founds.OrderByDescending(s => s.Priority);

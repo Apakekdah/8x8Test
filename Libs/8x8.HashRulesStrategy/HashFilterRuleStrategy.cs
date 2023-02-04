@@ -2,12 +2,13 @@
 using FastMember;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 
 namespace _8x8.HashRulesStrategy
 {
-    public class HashFilterRuleStrategy : Disposable, IFilterRuleStrategy
+    public class HashFilterRuleStrategy : Disposable, IFilterRuleStrategy<int>
     {
         public readonly static int DefaultHash = 1;
 
@@ -27,12 +28,12 @@ namespace _8x8.HashRulesStrategy
 
         public IFilterRule FilterRule { get; private set; }
 
-        public IEqualityComparer<IFilterRule> Comparer => throw new NotImplementedException();
-
-        public bool Compare(int hash, IEnumerable<string> segments)
+        public bool Equals([AllowNull] IFilterRuleStrategy<int> other)
         {
+            if (other == null) return false;
+
             HashStorage hashStorage;
-            var segmentKey = CreateSegmentKey(segments);
+            var segmentKey = CreateSegmentKey(other.Segments);
             if (string.IsNullOrEmpty(segmentKey) && !storage.ContainsKey(segmentKey))
             {
                 hashStorage = new HashStorage
@@ -45,7 +46,7 @@ namespace _8x8.HashRulesStrategy
             }
             else if (!storage.ContainsKey(segmentKey))
             {
-                var result = CreateStrategyHashSegment(false, FilterRule, segments.ToArray());
+                var result = CreateStrategyHashSegment(false, FilterRule, other.Segments.ToArray());
                 storage.Add(result);
                 hashStorage = result.Value;
             }
@@ -53,8 +54,15 @@ namespace _8x8.HashRulesStrategy
             {
                 hashStorage = storage[segmentKey];
             }
-            return hashStorage.Hash == hash;
+            return hashStorage.Hash == other.Hash;
         }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as IFilterRuleStrategy<int>);
+        }
+
+        public override int GetHashCode() => base.GetHashCode();
 
         protected override void DisposeCore()
         {
@@ -145,7 +153,6 @@ namespace _8x8.HashRulesStrategy
         {
             return string.Join("+", source);
         }
-
 
         /// <summary>
         /// Copy from : https://stackoverflow.com/a/9545731

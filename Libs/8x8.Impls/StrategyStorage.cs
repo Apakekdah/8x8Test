@@ -24,9 +24,9 @@ namespace _8x8.Impls
             this.strategies.AddRange(strategies);
         }
 
-        public IEnumerable<TStrategy> Find(IFilterRuleStrategy strategy)
+        public IEnumerable<TStrategy> Find<T>(IFilterRuleStrategy strategy)
         {
-            return strategies.Where(t => strategy.Compare(t.Hash, t.Segments)).ToArray();
+            return strategies.Where(t => strategy.Equals(((IStrategyWrapper<T>)t).FilterRuleStrategy)).ToArray();
         }
 
         public void Remove(TStrategy strategy)
