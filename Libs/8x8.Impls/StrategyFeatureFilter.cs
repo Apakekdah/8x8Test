@@ -2,6 +2,8 @@
 using Autofac;
 using FastMember;
 using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -46,44 +48,44 @@ namespace _8x8.Impls
 
         private void LoadCsv(string path, string separator)
         {
-            Microsoft.VisualBasic.FileIO.TextFieldParser tfp = new Microsoft.VisualBasic.FileIO.TextFieldParser(path)
-            {
-                TextFieldType = Microsoft.VisualBasic.FileIO.FieldType.Delimited,
-                HasFieldsEnclosedInQuotes = true,
-                TrimWhiteSpace = true,
-            };
-            tfp.SetDelimiters(separator);
+            ICsvReader reader = scope.Resolve<ICsvReader>();
 
-            var header = tfp.ReadFields();
+            reader.Separator = separator;
+            var dicRows = reader.Reader(path);
 
-            while (!tfp.EndOfData)
-            {
-                var rows = tfp.ReadFields();
-                storage.Add(ParseToStrategyWrapper(header, rows));
-            }
+            TypeAccessor accessor = TypeAccessor.Create(typeof(TStrategy));
+
+            ConcurrentBag<IStrategyWrapper> bags = new ConcurrentBag<IStrategyWrapper>();
+
+            dicRows.AsParallel().WithDegreeOfParallelism(5)
+                .ForAll(d => bags.Add(ParseToStrategyWrapper(accessor, d)));
+
+            storage.AddRange(bags);
+
+            dicRows.AsParallel().WithDegreeOfParallelism(3).ForAll(d => d.Clear());
+            bags.Clear();
         }
 
-        private IStrategyWrapper ParseToStrategyWrapper(string[] header, string[] rawData)
+        private IStrategyWrapper ParseToStrategyWrapper(TypeAccessor accessor, IDictionary<string, string> row)
         {
             var typeT = typeof(TStrategy);
             PropertyInfo pi;
 
             Type nullType;
 
-            TypeAccessor accessor = TypeAccessor.Create(typeof(TStrategy));
             TStrategy strategy = new TStrategy();
-            for (int n = 0; n < header.Length; n++)
+            foreach (var kvp in row)
             {
-                pi = typeT.GetProperty(header[n], BindingFlags.Public | BindingFlags.Instance | BindingFlags.SetProperty);
+                pi = typeT.GetProperty(kvp.Key, BindingFlags.Public | BindingFlags.Instance | BindingFlags.SetProperty);
                 if (pi != null)
                 {
-                    if (!string.IsNullOrEmpty(rawData[n]))
+                    if (!string.IsNullOrEmpty(kvp.Value))
                     {
                         if ((nullType = Nullable.GetUnderlyingType(pi.PropertyType)) == null)
                         {
                             nullType = pi.PropertyType;
                         }
-                        accessor[strategy, pi.Name] = Convert.ChangeType(rawData[n], nullType);
+                        accessor[strategy, pi.Name] = Convert.ChangeType(kvp.Value, nullType);
                     }
                 }
             }

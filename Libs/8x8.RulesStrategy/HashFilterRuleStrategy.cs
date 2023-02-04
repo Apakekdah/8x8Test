@@ -76,7 +76,7 @@ namespace _8x8.HashRulesStrategy
             object value;
             ICollection<string> lstSegments = new HashSet<string>();
 
-            if (IsEmptySegments(segments))
+            if (segments.IsEmptyArray())
             {
                 if (init)
                 {
@@ -119,16 +119,18 @@ namespace _8x8.HashRulesStrategy
             });
         }
 
-        private bool IsEmptySegments(IEnumerable<string> segments)
-        {
-            return segments?.Any() == false;
-        }
-
         private string CreateSegmentKey(IEnumerable<string> source)
         {
             return string.Join("+", source);
         }
 
+
+        /// <summary>
+        /// Copy from : https://stackoverflow.com/a/9545731
+        /// But downgrade to be able use with int
+        /// </summary>
+        /// <param name="read">string to hash</param>
+        /// <returns></returns>
         static int CalculateHash(string read)
         {
             int hashedValue = 307445734;

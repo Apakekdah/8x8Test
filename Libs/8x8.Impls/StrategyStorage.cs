@@ -7,16 +7,21 @@ namespace _8x8.Impls
     public class StrategyStorage<TStrategy> : IStrategyStorage<TStrategy>
         where TStrategy : IStrategyWrapper
     {
-        private readonly ICollection<TStrategy> strategies;
+        private readonly List<TStrategy> strategies;
 
         public StrategyStorage()
         {
-            strategies = new HashSet<TStrategy>();
+            strategies = new List<TStrategy>();
         }
 
         public void Add(TStrategy strategy)
         {
             strategies.Add(strategy);
+        }
+
+        public void AddRange(IEnumerable<TStrategy> strategies)
+        {
+            this.strategies.AddRange(strategies);
         }
 
         public IEnumerable<TStrategy> Find(IFilterRuleStrategy strategy)
