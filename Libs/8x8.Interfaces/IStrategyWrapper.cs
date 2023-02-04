@@ -1,6 +1,8 @@
-﻿namespace _8x8.Interfaces
+﻿using System;
+
+namespace _8x8.Interfaces
 {
-    public interface IStrategyWrapper : IFilterInfo
+    public interface IStrategyWrapper : IDisposable, IFilterInfo
     {
         int RuleId { get; }
         int Priority { get; }

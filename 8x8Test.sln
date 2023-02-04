@@ -19,7 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "8x8.HashRulesStrategy", "Li
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "8x8.DI", "Libs\8x8.DI\8x8.DI.csproj", "{6FEC93C3-62BE-4EE1-9B12-6504BCA1C35E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "8x8.Constants", "Libs\8x8.Constants\8x8.Constants.csproj", "{61489821-0096-4329-8468-08221012038B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "8x8.Constants", "Libs\8x8.Constants\8x8.Constants.csproj", "{61489821-0096-4329-8468-08221012038B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C8043BF1-8C63-4B3B-8935-EE3F3F589AEC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

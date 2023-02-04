@@ -23,15 +23,16 @@ namespace _8x8.Impls
 
         public TStrategy FindRule(IFilterRule filterRule)
         {
-            var filterRuleStrategy = scope.ResolveNamed<IFilterRuleStrategy>(scope.Tag.ToString(),
-                new NamedParameter("filterRule", filterRule));
-
-            var founds = storage.Find(filterRuleStrategy);
-            if (founds.Any())
+            using (var filterRuleStrategy = scope.ResolveNamed<IFilterRuleStrategy>(scope.Tag.ToString(),
+                new NamedParameter("filterRule", filterRule)))
             {
-                founds = founds.OrderByDescending(s => s.Priority);
+                var founds = storage.Find(filterRuleStrategy);
+                if (founds.Any())
+                {
+                    founds = founds.OrderByDescending(s => s.Priority);
+                }
+                return (TStrategy)founds.FirstOrDefault()?.Strategy;
             }
-            return (TStrategy)founds.FirstOrDefault()?.Strategy;
         }
 
         public void Load(string path)

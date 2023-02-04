@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace _8x8.HashRulesStrategy
 {
-    public class HashFilterRuleStrategy : IFilterRuleStrategy
+    public class HashFilterRuleStrategy : Disposable, IFilterRuleStrategy
     {
         public readonly static int DefaultHash = 1;
 
@@ -55,6 +55,15 @@ namespace _8x8.HashRulesStrategy
             }
             return hashStorage.Hash == hash;
         }
+
+        protected override void DisposeCore()
+        {
+            base.DisposeCore();
+
+            storage?.Clear();
+        }
+
+        #region Private 
 
         private void Init()
         {
@@ -160,5 +169,7 @@ namespace _8x8.HashRulesStrategy
             public IEnumerable<string> Segments { get; set; }
             public int Hash { get; set; }
         }
+
+        #endregion
     }
 }

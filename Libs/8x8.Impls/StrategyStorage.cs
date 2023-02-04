@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace _8x8.Impls
 {
-    public class StrategyStorage<TStrategy> : IStrategyStorage<TStrategy>
+    public class StrategyStorage<TStrategy> : Disposable, IStrategyStorage<TStrategy>
         where TStrategy : IStrategyWrapper
     {
         private readonly List<TStrategy> strategies;
@@ -32,6 +32,14 @@ namespace _8x8.Impls
         public void Remove(TStrategy strategy)
         {
             strategies.Remove(strategy);
+        }
+
+        protected override void DisposeCore()
+        {
+            base.DisposeCore();
+
+            strategies.AsParallel().WithDegreeOfParallelism(3).ForAll(s => s.Dispose());
+            strategies.Clear();
         }
     }
 }
