@@ -11,7 +11,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\8x8.Interfaces\8x8.Interfaces.csproj" />
-    <ProjectReference Include="..\8x8.RulesStrategy\8x8.HashRulesStrategy.csproj" />
   </ItemGroup>
 
 </Project>

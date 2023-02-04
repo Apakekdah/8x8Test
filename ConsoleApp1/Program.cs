@@ -1,5 +1,4 @@
 ﻿using _8x8;
-using _8x8.HashRulesStrategy;
 using _8x8.Impls;
 using _8x8.Interfaces;
 using _8x8.Models;
@@ -25,7 +24,13 @@ namespace ConsoleApp1
                 .Life
                 .ResolveNamed<IStrategyFeatureFilter<StrategyRule4<string, string, string, string>>>(KeyDI.STRATEGY_FILTER_4,
                     new NamedParameter("method", KeyDI.HASH));
-            sff.Load("sample_rules.csv");
+
+            //var sff = IoC
+            //   .Life
+            //   .ResolveNamed<IStrategyFeatureFilter<StrategyRule3<string, string, string>>>(KeyDI.STRATEGY_FILTER_3,
+            //       new NamedParameter("method", KeyDI.HASH));
+
+            sff.Load("SampleData.csv");
 
             sw.Stop();
 
@@ -33,7 +38,8 @@ namespace ConsoleApp1
 
             sw.Restart();
 
-            var strategy = sff.FindRule(new FilterRule4<string, string, string, string>("AAA", "BBB", "CCC", "AAA"));
+            var strategy = sff.FindRule(new FilterRule<string, string, string, string>("AAA", "BBB", "CCC", "DDD"));
+            //var strategy = sff.FindRule(new FilterRule<string, string, string>("AAA", "BBB", "DDD"));
 
             sw.Stop();
 
@@ -44,23 +50,7 @@ namespace ConsoleApp1
 
         static void Register()
         {
-            ContainerBuilder builder = new ContainerBuilder();
-
-            builder.RegisterType<StrategyFeatureFilter<StrategyRule4<string, string, string, string>>>()
-                .Named<IStrategyFeatureFilter<StrategyRule4<string, string, string, string>>>(KeyDI.STRATEGY_FILTER_4)
-                .SingleInstance();
-
-            builder.RegisterType<MicrosoftCsvReader>().As<ICsvReader>();
-
-            builder.RegisterType<StrategyStorage<IStrategyWrapper>>().As<IStrategyStorage<IStrategyWrapper>>().SingleInstance();
-
-            builder.RegisterType<StrategyRule4<string, string, string, string>>().AsImplementedInterfaces().InstancePerLifetimeScope();
-
-            /// Hash
-            builder.RegisterType<HashStrategyWrapper>().Named<IStrategyWrapper>(KeyDI.HASH);
-            builder.RegisterType<HashFilterRuleStrategy>().Named<IFilterRuleStrategy>(KeyDI.HASH);
-
-            IoC.SetLifetime(builder.Build());
+            RegisterDI.Register();
         }
     }
 }

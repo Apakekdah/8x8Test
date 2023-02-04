@@ -9,6 +9,8 @@ namespace _8x8.HashRulesStrategy
 {
     public class HashFilterRuleStrategy : IFilterRuleStrategy
     {
+        public readonly static int DefaultHash = 1;
+
         private readonly IDictionary<string, HashStorage> storage;
 
         public HashFilterRuleStrategy(IFilterRule filterRule)
@@ -31,7 +33,17 @@ namespace _8x8.HashRulesStrategy
         {
             HashStorage hashStorage;
             var segmentKey = CreateSegmentKey(segments);
-            if (!storage.ContainsKey(segmentKey))
+            if (string.IsNullOrEmpty(segmentKey) && !storage.ContainsKey(segmentKey))
+            {
+                hashStorage = new HashStorage
+                {
+                    Hash = DefaultHash,
+                    Segments = Array.Empty<string>()
+                };
+                var result = new KeyValuePair<string, HashStorage>("", hashStorage);
+                storage.Add(result);
+            }
+            else if (!storage.ContainsKey(segmentKey))
             {
                 var result = CreateStrategyHashSegment(false, FilterRule, segments.ToArray());
                 storage.Add(result);
@@ -67,8 +79,12 @@ namespace _8x8.HashRulesStrategy
 
         private KeyValuePair<string, HashStorage> CreateStrategyHashSegment(bool init, IFilterRule filterRule, params string[] segments)
         {
-            int hash = 1;
+            int hash = DefaultHash;
             Type stringType = typeof(string);
+
+            int idx = 0;
+            PropertyInfo pi;
+            int segmentHash = 0;
 
             TypeAccessor accesor = TypeAccessor.Create(filterRule.GetType());
             IEnumerable<PropertyInfo> filters = GetInheritancePropertiesFromIFilterRule(filterRule);
@@ -88,9 +104,6 @@ namespace _8x8.HashRulesStrategy
                 }
             }
 
-            int idx = 0;
-            PropertyInfo pi;
-            int segmentHash = 0;
             foreach (var segment in segments)
             {
                 segmentHash = idx;
