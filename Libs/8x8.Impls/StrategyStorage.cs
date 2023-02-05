@@ -26,7 +26,9 @@ namespace _8x8.Impls
 
         public IEnumerable<TStrategy> Find<T>(IFilterRuleStrategy strategy)
         {
-            return strategies.Where(t => strategy.Equals(((IStrategyWrapper<T>)t).FilterRuleStrategy)).ToArray();
+            return strategies
+                .Where(t => strategy.Equals(((IStrategyWrapper<T>)t).FilterRuleStrategy))
+                .ToArray();
         }
 
         public void Remove(TStrategy strategy)

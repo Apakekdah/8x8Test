@@ -4,6 +4,6 @@
     {
         public static readonly string ANY = "<ANY>";
 
-        public readonly static string SAMPLE_DATA = "MOCK_DATA.csv";
+        public readonly static string SAMPLE_DATA = "sample_rules.csv";
     }
 }

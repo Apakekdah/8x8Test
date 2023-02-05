@@ -24,6 +24,24 @@
   </ItemGroup>
 
   <ItemGroup>
+      <Content Include="..\Docs\DataFilters.csv" Link="DataFilters.csv">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+  </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="..\Docs\sample_rules.csv" Link="sample_rules.csv">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="..\Docs\DataFilters100.csv" Link="DataFilters100.csv">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Autofac" Version="6.5.0" />
   </ItemGroup>
 

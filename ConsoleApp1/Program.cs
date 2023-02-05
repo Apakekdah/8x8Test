@@ -4,7 +4,10 @@ using _8x8.Interfaces;
 using _8x8.Models;
 using Autofac;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Reflection;
+using System.Text;
 
 namespace ConsoleApp1
 {
@@ -16,11 +19,15 @@ namespace ConsoleApp1
 
             Register();
 
+            CreateFilterRaw();
+
             Version4();
 
             Version4Regex();
 
             Version3();
+
+            Version4ManyFilter();
         }
 
         static void Register()
@@ -121,6 +128,94 @@ namespace ConsoleApp1
 
                 Console.WriteLine($"Found : \n{strategy3}");
             }
+        }
+
+        static void Version4ManyFilter()
+        {
+            Console.WriteLine("Start rule 4 Hash Many");
+
+            using (var scope = IoC.Life.BeginLifetimeScope())
+            {
+                Stopwatch sw = new Stopwatch();
+
+                sw.Start();
+
+                var sff4 = scope
+                    .ResolveNamed<IStrategyFeatureFilter<StrategyRule4<string, string, string, string>>>(KeyDI.STRATEGY_FILTER_4,
+                        new NamedParameter("method", KeyDI.HASH));
+
+                sff4.Load(StrategyFilterRule.SAMPLE_DATA);
+
+                sw.Stop();
+
+                Console.WriteLine($"Load time Elapsed : {sw.Elapsed}");
+
+                var fRules = CreateFilterRaw();
+
+                Console.WriteLine("Begin seeks");
+                List<int> lst = new List<int>();
+
+                sw.Restart();
+
+                foreach (var fr in fRules)
+                {
+                    var found = sff4.FindRule<int>(fr);
+                    lst.Add(found.RuleId);
+                }
+
+                sw.Stop();
+
+                Console.WriteLine($"Find Elapsed : {sw.Elapsed}");
+
+                int idx = 1;
+                StringBuilder sb = new StringBuilder();
+                foreach (var id in lst)
+                {
+                    sb.AppendLine($"{idx} \t\t{id.ToString()}");
+                    idx++;
+                }
+                Console.WriteLine($"Found : {sb.ToString()}");
+
+                lst.Clear();
+            }
+        }
+
+        static IEnumerable<IFilterRule> CreateFilterRaw()
+        {
+            var typeT = typeof(FilterRule<string, string, string, string>);
+
+            var reader = IoC.Life.Resolve<ICsvReader>();
+
+            reader.Separator = ",";
+            var raws = reader.Reader("DataFilters100.csv");
+
+            FastMember.TypeAccessor accessor = FastMember.TypeAccessor.Create(typeT);
+            PropertyInfo pi;
+
+            ICollection<IFilterRule> rules = new HashSet<IFilterRule>();
+
+            foreach (var dic in raws)
+            {
+                IFilterRule filter = (IFilterRule)Activator.CreateInstance(typeT);
+
+                foreach (var kvp in dic)
+                {
+                    pi = typeT.GetProperty(kvp.Key, BindingFlags.Public | BindingFlags.Instance | BindingFlags.SetProperty);
+                    if (pi != null)
+                    {
+                        if (!string.IsNullOrEmpty(kvp.Value))
+                        {
+                            accessor[filter, pi.Name] = Convert.ChangeType(kvp.Value, pi.PropertyType);
+                        }
+                    }
+                }
+
+                rules.Add(filter);
+
+                dic.Clear();
+            }
+
+            return rules;
         }
     }
 }

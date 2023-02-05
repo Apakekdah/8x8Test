@@ -4,6 +4,9 @@ namespace _8x8.Impls
 {
     public class FilterRule<TFilter1, TFilter2, TFilter3, TFilter4> : IFilterRule<TFilter1, TFilter2, TFilter3, TFilter4>
     {
+        public FilterRule()
+        { }
+
         public FilterRule(TFilter1 filter1, TFilter2 filter2, TFilter3 filter3, TFilter4 filter4)
         {
             Filter1 = filter1;
@@ -20,6 +23,9 @@ namespace _8x8.Impls
 
     public class FilterRule<TFilter1, TFilter2, TFilter3> : IFilterRule<TFilter1, TFilter2, TFilter3>
     {
+        public FilterRule()
+        { }
+
         public FilterRule(TFilter1 filter1, TFilter2 filter2, TFilter3 filter3)
         {
             Filter1 = filter1;
