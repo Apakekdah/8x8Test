@@ -29,10 +29,10 @@ namespace _8x8.RegexRulesStrategy
 
         private void Init()
         {
-            CreatePattern(true, FilterRule);
+            CreatePattern(FilterRule);
         }
 
-        private void CreatePattern(bool init, IFilterRule filterRule, params string[] segments)
+        private void CreatePattern(IFilterRule filterRule, params string[] segments)
         {
             Type stringType = typeof(string);
 
@@ -41,18 +41,12 @@ namespace _8x8.RegexRulesStrategy
 
             object value;
             string val;
+
+            ICollection<string> colPattern = new List<string>();
+            ICollection<string> colValue = new List<string>();
             ICollection<string> lstSegments = new HashSet<string>();
 
-            if (segments.IsEmptyArray())
-            {
-                if (init)
-                {
-                    segments = filters.Select(c => c.Name).ToArray();
-                }
-            }
-
-            ICollection<string> colPattern = new HashSet<string>();
-            ICollection<string> colValue = new HashSet<string>();
+            segments = filters.Select(c => c.Name).ToArray();
 
             foreach (var segment in segments)
             {

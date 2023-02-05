@@ -112,9 +112,13 @@ namespace _8x8.HashRulesStrategy
                 lstSegments.Add(segment);
             }
 
-            return new KeyValuePair<string, HashStorage>(CreateSegmentKey(lstSegments), new HashStorage
+            var arr = lstSegments.ToArray();
+
+            lstSegments.Clear();
+
+            return new KeyValuePair<string, HashStorage>(CreateSegmentKey(arr), new HashStorage
             {
-                Segments = lstSegments.ToArray(),
+                Segments = arr,
                 Hash = hash
             });
         }
