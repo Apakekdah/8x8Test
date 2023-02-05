@@ -15,15 +15,15 @@ namespace _8x8
 
             builder.RegisterType<StrategyFeatureFilter<StrategyRule4<string, string, string, string>>>()
                 .Named<IStrategyFeatureFilter<StrategyRule4<string, string, string, string>>>(KeyDI.STRATEGY_FILTER_4)
-                .SingleInstance();
+                .InstancePerLifetimeScope();
 
             builder.RegisterType<StrategyFeatureFilter<StrategyRule3<string, string, string>>>()
                 .Named<IStrategyFeatureFilter<StrategyRule3<string, string, string>>>(KeyDI.STRATEGY_FILTER_3)
-                .SingleInstance();
+                .InstancePerLifetimeScope();
 
             builder.RegisterType<MicrosoftCsvReader>().As<ICsvReader>();
 
-            builder.RegisterType<StrategyStorage<IStrategyWrapper>>().As<IStrategyStorage<IStrategyWrapper>>().SingleInstance();
+            builder.RegisterType<StrategyStorage<IStrategyWrapper>>().As<IStrategyStorage<IStrategyWrapper>>().InstancePerLifetimeScope();
 
             builder.RegisterType<StrategyRule4<string, string, string, string>>().AsImplementedInterfaces().InstancePerLifetimeScope();
 

@@ -16,7 +16,7 @@ namespace ConsoleApp1
 
             Register();
 
-            //Version4();
+            Version4();
 
             Version4Regex();
 
@@ -32,91 +32,95 @@ namespace ConsoleApp1
         {
             Console.WriteLine("Start rule 4");
 
-            Stopwatch sw = new Stopwatch();
+            using (var scope = IoC.Life.BeginLifetimeScope())
+            {
+                Stopwatch sw = new Stopwatch();
 
-            sw.Start();
+                sw.Start();
 
-            var sff4 = IoC
-                .Life
-                .ResolveNamed<IStrategyFeatureFilter<StrategyRule4<string, string, string, string>>>(KeyDI.STRATEGY_FILTER_4,
-                    new NamedParameter("method", KeyDI.HASH));
+                var sff4 = scope
+                    .ResolveNamed<IStrategyFeatureFilter<StrategyRule4<string, string, string, string>>>(KeyDI.STRATEGY_FILTER_4,
+                        new NamedParameter("method", KeyDI.HASH));
 
-            sff4.Load("SampleData.csv");
+                sff4.Load("SampleData.csv");
 
-            sw.Stop();
+                sw.Stop();
 
-            Console.WriteLine($"Load time Elapsed : {sw.Elapsed}");
+                Console.WriteLine($"Load time Elapsed : {sw.Elapsed}");
 
-            sw.Restart();
+                sw.Restart();
 
-            var strategy4 = sff4.FindRule<int>(new FilterRule<string, string, string, string>("AAA", "BBB", "CCC", "DDD"));
+                var strategy4 = sff4.FindRule<int>(new FilterRule<string, string, string, string>("AAA", "BBB", "CCC", "DDD"));
 
-            sw.Stop();
+                sw.Stop();
 
-            Console.WriteLine($"Find Elapsed : {sw.Elapsed}");
+                Console.WriteLine($"Find Elapsed : {sw.Elapsed}");
 
-            Console.WriteLine($"Found : \n{strategy4}");
+                Console.WriteLine($"Found : \n{strategy4}");
+            }
         }
 
         static void Version4Regex()
         {
             Console.WriteLine("Start rule 4");
 
-            Stopwatch sw = new Stopwatch();
+            using (var scope = IoC.Life.BeginLifetimeScope())
+            {
+                Stopwatch sw = new Stopwatch();
 
-            sw.Start();
+                sw.Start();
 
-            var sff4 = IoC
-                .Life
-                .ResolveNamed<IStrategyFeatureFilter<StrategyRule4<string, string, string, string>>>(KeyDI.STRATEGY_FILTER_4,
-                    new NamedParameter("method", KeyDI.REGEX));
+                var sff4 = scope
+                    .ResolveNamed<IStrategyFeatureFilter<StrategyRule4<string, string, string, string>>>(KeyDI.STRATEGY_FILTER_4,
+                        new NamedParameter("method", KeyDI.REGEX));
 
-            sff4.Load("SampleData.csv");
+                sff4.Load("SampleData.csv");
 
-            sw.Stop();
+                sw.Stop();
 
-            Console.WriteLine($"Load time Elapsed : {sw.Elapsed}");
+                Console.WriteLine($"Load time Elapsed : {sw.Elapsed}");
 
-            sw.Restart();
+                sw.Restart();
 
-            var strategy4 = sff4.FindRule<string>(new FilterRule<string, string, string, string>("AAA", "BBB", "CCC", "AAA"));
+                var strategy4 = sff4.FindRule<string>(new FilterRule<string, string, string, string>("AAA", "BBB", "CCC", "AAA"));
 
-            sw.Stop();
+                sw.Stop();
 
-            Console.WriteLine($"Find Elapsed : {sw.Elapsed}");
+                Console.WriteLine($"Find Elapsed : {sw.Elapsed}");
 
-            Console.WriteLine($"Found : \n{strategy4}");
+                Console.WriteLine($"Found : \n{strategy4}");
+            }
         }
 
         static void Version3()
         {
-
             Console.WriteLine("Start rule 4");
+            using (var scope = IoC.Life.BeginLifetimeScope())
+            {
+                Stopwatch sw = new Stopwatch();
 
-            Stopwatch sw = new Stopwatch();
+                sw.Start();
 
-            sw.Start();
+                var sff3 = scope
+                   .ResolveNamed<IStrategyFeatureFilter<StrategyRule3<string, string, string>>>(KeyDI.STRATEGY_FILTER_3,
+                       new NamedParameter("method", KeyDI.HASH));
 
-            var sff3 = IoC
-               .Life
-               .ResolveNamed<IStrategyFeatureFilter<StrategyRule3<string, string, string>>>(KeyDI.STRATEGY_FILTER_3,
-                   new NamedParameter("method", KeyDI.HASH));
+                sff3.Load("SampleData.csv");
 
-            sff3.Load("SampleData.csv");
+                sw.Stop();
 
-            sw.Stop();
+                Console.WriteLine($"Load time Elapsed : {sw.Elapsed}");
 
-            Console.WriteLine($"Load time Elapsed : {sw.Elapsed}");
+                sw.Restart();
 
-            sw.Restart();
+                var strategy3 = sff3.FindRule<int>(new FilterRule<string, string, string>("AAA", "BBB", "DDD"));
 
-            var strategy3 = sff3.FindRule<int>(new FilterRule<string, string, string>("AAA", "BBB", "DDD"));
+                sw.Stop();
 
-            sw.Stop();
+                Console.WriteLine($"Find Elapsed : {sw.Elapsed}");
 
-            Console.WriteLine($"Find Elapsed : {sw.Elapsed}");
-
-            Console.WriteLine($"Found : \n{strategy3}");
+                Console.WriteLine($"Found : \n{strategy3}");
+            }
         }
     }
 }
