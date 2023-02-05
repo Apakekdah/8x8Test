@@ -20,7 +20,7 @@ namespace ConsoleApp1
 
             Version4Regex();
 
-            //Version3();
+            Version3();
         }
 
         static void Register()
@@ -30,7 +30,7 @@ namespace ConsoleApp1
 
         static void Version4()
         {
-            Console.WriteLine("Start rule 4");
+            Console.WriteLine("Start rule 4 Hash");
 
             using (var scope = IoC.Life.BeginLifetimeScope())
             {
@@ -62,7 +62,7 @@ namespace ConsoleApp1
 
         static void Version4Regex()
         {
-            Console.WriteLine("Start rule 4");
+            Console.WriteLine("Start rule 4 Regex");
 
             using (var scope = IoC.Life.BeginLifetimeScope())
             {
@@ -94,7 +94,7 @@ namespace ConsoleApp1
 
         static void Version3()
         {
-            Console.WriteLine("Start rule 4");
+            Console.WriteLine("Start rule 3 Hash");
             using (var scope = IoC.Life.BeginLifetimeScope())
             {
                 Stopwatch sw = new Stopwatch();
