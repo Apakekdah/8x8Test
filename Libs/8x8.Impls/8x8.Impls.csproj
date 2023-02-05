@@ -12,7 +12,6 @@
   <ItemGroup>
     <ProjectReference Include="..\8x8.Commons\8x8.Commons.csproj" />
     <ProjectReference Include="..\8x8.Constants\8x8.Constants.csproj" />
-    <ProjectReference Include="..\8x8.HashRulesStrategy\8x8.HashRulesStrategy.csproj" />
     <ProjectReference Include="..\8x8.Interfaces\8x8.Interfaces.csproj" />
   </ItemGroup>
 

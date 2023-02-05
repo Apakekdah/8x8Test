@@ -1,5 +1,5 @@
-﻿using _8x8.Interfaces;
-using FastMember;
+﻿using _8x8.Impls;
+using _8x8.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -8,27 +8,19 @@ using System.Reflection;
 
 namespace _8x8.HashRulesStrategy
 {
-    public class HashFilterRuleStrategy : Disposable, IFilterRuleStrategy<int>
+    public class HashFilterRuleStrategy : BaseFilterRuleStrategy<int>
     {
         public readonly static int DefaultHash = 1;
 
         private readonly IDictionary<string, HashStorage> storage;
 
-        public HashFilterRuleStrategy(IFilterRule filterRule)
+        public HashFilterRuleStrategy(IFilterRule filterRule) : base(filterRule)
         {
-            FilterRule = filterRule;
-
             storage = new Dictionary<string, HashStorage>(StringComparer.InvariantCultureIgnoreCase);
             Init();
         }
 
-        public IEnumerable<string> Segments { get; private set; }
-
-        public int Hash { get; private set; }
-
-        public IFilterRule FilterRule { get; private set; }
-
-        public bool Equals([AllowNull] IFilterRuleStrategy<int> other)
+        public override bool Equals([AllowNull] IFilterRuleStrategy<int> other)
         {
             if (other == null) return false;
 
@@ -57,13 +49,6 @@ namespace _8x8.HashRulesStrategy
             return hashStorage.Hash == other.Hash;
         }
 
-        public override bool Equals(object obj)
-        {
-            return Equals(obj as IFilterRuleStrategy<int>);
-        }
-
-        public override int GetHashCode() => base.GetHashCode();
-
         protected override void DisposeCore()
         {
             base.DisposeCore();
@@ -81,19 +66,6 @@ namespace _8x8.HashRulesStrategy
             Hash = result.Value.Hash;
         }
 
-        private IEnumerable<PropertyInfo> GetInheritancePropertiesFromIFilterRule(IFilterRule filterRule)
-        {
-            Type typeFilterRule = typeof(IFilterRule);
-            var types = filterRule.GetType().GetInterfaces().Where(c => typeFilterRule.IsAssignableFrom(c) && !typeFilterRule.Equals(c)).ToArray();
-            foreach (var type in types)
-            {
-                foreach (var pi in type.GetProperties())
-                {
-                    yield return pi;
-                }
-            }
-        }
-
         private KeyValuePair<string, HashStorage> CreateStrategyHashSegment(bool init, IFilterRule filterRule, params string[] segments)
         {
             int hash = DefaultHash;
@@ -102,8 +74,6 @@ namespace _8x8.HashRulesStrategy
             int idx = 0;
             PropertyInfo pi;
             int segmentHash = 0;
-
-            TypeAccessor accesor = TypeAccessor.Create(filterRule.GetType());
             IEnumerable<PropertyInfo> filters = GetInheritancePropertiesFromIFilterRule(filterRule);
 
             object value;
@@ -126,7 +96,7 @@ namespace _8x8.HashRulesStrategy
                 segmentHash = idx;
                 pi = filters.FirstOrDefault(p => p.Name.Equals(segment));
                 if (pi == null) continue;
-                value = accesor[filterRule, pi.Name];
+                value = Accesor[filterRule, pi.Name];
                 if (pi.PropertyType.Equals(stringType))
                 {
                     if (StrategyFilterRule.ANY.Equals((string)value, StringComparison.InvariantCultureIgnoreCase))
