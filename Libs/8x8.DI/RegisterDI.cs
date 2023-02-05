@@ -2,6 +2,7 @@
 using _8x8.Impls;
 using _8x8.Interfaces;
 using _8x8.Models;
+using _8x8.RegexRulesStrategy;
 using Autofac;
 
 namespace _8x8
@@ -31,6 +32,11 @@ namespace _8x8
             builder.RegisterType<HashStrategyWrapper>().Named<IStrategyWrapper>(KeyDI.HASH);
             builder.RegisterType<HashFilterRuleStrategy>().Named<IFilterRuleStrategy<int>>(KeyDI.HASH);
             builder.RegisterType<HashFilterRuleStrategy>().Named<IFilterRuleStrategy>(KeyDI.HASH);
+
+            builder.RegisterType<RegexStrategyWrapper>().Named<IStrategyWrapper<string>>(KeyDI.REGEX);
+            builder.RegisterType<RegexStrategyWrapper>().Named<IStrategyWrapper>(KeyDI.REGEX);
+            builder.RegisterType<RegexFilterRuleStrategy>().Named<IFilterRuleStrategy<string>>(KeyDI.REGEX);
+            builder.RegisterType<RegexFilterRuleStrategy>().Named<IFilterRuleStrategy>(KeyDI.REGEX);
 
             IoC.SetLifetime(builder.Build());
         }

@@ -5,6 +5,7 @@
         public static readonly string DATA_LOADER_CSV = "CSV";
 
         public static readonly string HASH = "Hash";
+        public static readonly string REGEX = "Regex";
 
         public static readonly string STRATEGY_FILTER_1 = "Filter1";
         public static readonly string STRATEGY_FILTER_2 = "Filter2";

@@ -16,7 +16,9 @@ namespace ConsoleApp1
 
             Register();
 
-            Version4();
+            //Version4();
+
+            Version4Regex();
 
             //Version3();
         }
@@ -48,6 +50,36 @@ namespace ConsoleApp1
             sw.Restart();
 
             var strategy4 = sff4.FindRule<int>(new FilterRule<string, string, string, string>("AAA", "BBB", "CCC", "DDD"));
+
+            sw.Stop();
+
+            Console.WriteLine($"Find Elapsed : {sw.Elapsed}");
+
+            Console.WriteLine($"Found : \n{strategy4}");
+        }
+
+        static void Version4Regex()
+        {
+            Console.WriteLine("Start rule 4");
+
+            Stopwatch sw = new Stopwatch();
+
+            sw.Start();
+
+            var sff4 = IoC
+                .Life
+                .ResolveNamed<IStrategyFeatureFilter<StrategyRule4<string, string, string, string>>>(KeyDI.STRATEGY_FILTER_4,
+                    new NamedParameter("method", KeyDI.REGEX));
+
+            sff4.Load("SampleData.csv");
+
+            sw.Stop();
+
+            Console.WriteLine($"Load time Elapsed : {sw.Elapsed}");
+
+            sw.Restart();
+
+            var strategy4 = sff4.FindRule<string>(new FilterRule<string, string, string, string>("AAA", "BBB", "CCC", "DDD"));
 
             sw.Stop();
 
