@@ -42,7 +42,7 @@ namespace ConsoleApp1
                     .ResolveNamed<IStrategyFeatureFilter<StrategyRule4<string, string, string, string>>>(KeyDI.STRATEGY_FILTER_4,
                         new NamedParameter("method", KeyDI.HASH));
 
-                sff4.Load("SampleData.csv");
+                sff4.Load(StrategyFilterRule.SAMPLE_DATA);
 
                 sw.Stop();
 
@@ -74,7 +74,7 @@ namespace ConsoleApp1
                     .ResolveNamed<IStrategyFeatureFilter<StrategyRule4<string, string, string, string>>>(KeyDI.STRATEGY_FILTER_4,
                         new NamedParameter("method", KeyDI.REGEX));
 
-                sff4.Load("SampleData.csv");
+                sff4.Load(StrategyFilterRule.SAMPLE_DATA);
 
                 sw.Stop();
 
@@ -82,7 +82,7 @@ namespace ConsoleApp1
 
                 sw.Restart();
 
-                var strategy4 = sff4.FindRule<string>(new FilterRule<string, string, string, string>("AAA", "BBB", "CCC", "AAA"));
+                var strategy4 = sff4.FindRule<string>(new FilterRule<string, string, string, string>("AAA", "BBB", "CCC", "DDD"));
 
                 sw.Stop();
 
@@ -105,7 +105,7 @@ namespace ConsoleApp1
                    .ResolveNamed<IStrategyFeatureFilter<StrategyRule3<string, string, string>>>(KeyDI.STRATEGY_FILTER_3,
                        new NamedParameter("method", KeyDI.HASH));
 
-                sff3.Load("SampleData.csv");
+                sff3.Load(StrategyFilterRule.SAMPLE_DATA);
 
                 sw.Stop();
 
