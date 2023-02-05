@@ -10,10 +10,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\8x8.RegexRulesStrategy\8x8.RegexRulesStrategy.csproj" />
     <ProjectReference Include="..\8x8.HashRulesStrategy\8x8.HashRulesStrategy.csproj" />
     <ProjectReference Include="..\8x8.Impls\8x8.Impls.csproj" />
     <ProjectReference Include="..\8x8.Models\8x8.Models.csproj" />
+    <ProjectReference Include="..\8x8.RegexRulesStrategy\8x8.RegexRulesStrategy.csproj" />
   </ItemGroup>
 
 </Project>

@@ -23,9 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "8x8.Constants", "Libs\8x8.C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C8043BF1-8C63-4B3B-8935-EE3F3F589AEC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "8x8.UnitTest", "8x8.UnitTest\8x8.UnitTest.csproj", "{EBD16AE1-6991-48EA-A98E-AD3838153F15}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "8x8.UnitTest", "Tests\8x8.UnitTest\8x8.UnitTest.csproj", "{EBD16AE1-6991-48EA-A98E-AD3838153F15}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "8x8.RegexRulesStrategy", "8x8.RegexRulesStrategy\8x8.RegexRulesStrategy.csproj", "{14642633-6746-4B0A-8E16-8443CFAE0952}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "8x8.RegexRulesStrategy", "Libs\8x8.RegexRulesStrategy\8x8.RegexRulesStrategy.csproj", "{14642633-6746-4B0A-8E16-8443CFAE0952}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

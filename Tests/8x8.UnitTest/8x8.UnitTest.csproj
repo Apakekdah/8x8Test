@@ -8,10 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="..\Docs\SampleData.csv" Link="SampleData.csv">
+    <Content Include="..\..\Docs\SampleData.csv" Link="SampleData.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\Docs\SampleData3.csv" Link="SampleData3.csv">
+    <Content Include="..\..\Docs\SampleData3.csv" Link="SampleData3.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -26,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Libs\8x8.DI\8x8.DI.csproj" />
+    <ProjectReference Include="..\..\Libs\8x8.DI\8x8.DI.csproj" />
   </ItemGroup>
 
 </Project>
