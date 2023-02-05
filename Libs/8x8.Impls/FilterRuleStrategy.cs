@@ -28,7 +28,7 @@ namespace _8x8.Impls
 
         public override bool Equals(object obj)
         {
-            return base.Equals(obj);
+            return Equals(obj as IFilterRuleStrategy<T>);
         }
 
         public override int GetHashCode() => base.GetHashCode();

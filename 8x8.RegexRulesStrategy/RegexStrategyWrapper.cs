@@ -1,21 +1,14 @@
-﻿using _8x8.Interfaces;
-using System;
-using System.Collections.Generic;
+﻿using _8x8.Impls;
+using _8x8.Interfaces;
+using Autofac;
 
 namespace _8x8.RegexRulesStrategy
 {
-    public class RegexStrategyWrapper : Disposable, IStrategyWrapper<string>
+    public class RegexStrategyWrapper : BaseStrategyWrapper<string>
     {
-        public IFilterRuleStrategy<string> FilterRuleStrategy => throw new NotImplementedException();
-
-        public int RuleId => throw new NotImplementedException();
-
-        public int Priority => throw new NotImplementedException();
-
-        public IStrategy Strategy => throw new NotImplementedException();
-
-        public IEnumerable<string> Segments => throw new NotImplementedException();
-
-        public string Hash => throw new NotImplementedException();
+        public RegexStrategyWrapper(ILifetimeScope life, IStrategy strategy)
+            : base(life, strategy)
+        {
+        }
     }
 }

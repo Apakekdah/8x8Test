@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace _8x8.RegexRulesStrategy
 {
@@ -17,20 +18,18 @@ namespace _8x8.RegexRulesStrategy
 
         public override bool Equals([AllowNull] IFilterRuleStrategy<string> other)
         {
-            throw new NotImplementedException();
+            if (other == null) return false;
+
+            return Regex.IsMatch(ValueMatch, other.Hash, RegexOptions.Singleline);
         }
 
         private string ValueMatch { get; set; }
-        private string Pattern { get; set; }
 
         #region Private
 
         private void Init()
         {
-            //var result = CreateStrategyHashSegment(true, FilterRule);
-            //storage.Add(result);
-            //Segments = result.Value.Segments;
-            //Hash = result.Value.Hash;
+            CreatePattern(true, FilterRule);
         }
 
         private void CreatePattern(bool init, IFilterRule filterRule, params string[] segments)
@@ -80,7 +79,13 @@ namespace _8x8.RegexRulesStrategy
                 lstSegments.Add(segment);
             }
 
-            Pattern = string.Join("-", colPattern);
+            Hash = string.Join("-", colPattern);
+            ValueMatch = string.Join("-", colValue);
+            Segments = lstSegments.ToArray();
+
+            colPattern.Clear();
+            colValue.Clear();
+            lstSegments.Clear();
         }
 
         #endregion
