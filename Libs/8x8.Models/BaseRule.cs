@@ -6,7 +6,7 @@ using System.Text;
 
 namespace _8x8.Models
 {
-    public class BaseRule : IBaseRule, IStrategy
+    public class BaseRule : IBaseRule
     {
         public int RuleId { get; set; }
         public int Priority { get; set; }
