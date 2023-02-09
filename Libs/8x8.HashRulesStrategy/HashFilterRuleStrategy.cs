@@ -14,6 +14,8 @@ namespace _8x8.HashRulesStrategy
 
         private readonly IDictionary<string, HashStorage> storage;
 
+        private readonly object locker = new object();
+
         public HashFilterRuleStrategy(IFilterRule filterRule) : base(filterRule)
         {
             storage = new Dictionary<string, HashStorage>(StringComparer.InvariantCultureIgnoreCase);
@@ -25,26 +27,29 @@ namespace _8x8.HashRulesStrategy
             if (other == null) return false;
 
             HashStorage hashStorage;
-            var segmentKey = CreateSegmentKey(other.Segments);
-            if (string.IsNullOrEmpty(segmentKey) && !storage.ContainsKey(segmentKey))
+            lock (locker)
             {
-                hashStorage = new HashStorage
+                var segmentKey = CreateSegmentKey(other.Segments);
+                if (string.IsNullOrEmpty(segmentKey) && !storage.ContainsKey(segmentKey))
                 {
-                    Hash = DefaultHash,
-                    Segments = Array.Empty<string>()
-                };
-                var result = new KeyValuePair<string, HashStorage>("", hashStorage);
-                storage.Add(result);
-            }
-            else if (!storage.ContainsKey(segmentKey))
-            {
-                var result = CreateStrategyHashSegment(false, FilterRule, other.Segments.ToArray());
-                storage.Add(result);
-                hashStorage = result.Value;
-            }
-            else
-            {
-                hashStorage = storage[segmentKey];
+                    hashStorage = new HashStorage
+                    {
+                        Hash = DefaultHash,
+                        Segments = Array.Empty<string>()
+                    };
+                    var result = new KeyValuePair<string, HashStorage>("", hashStorage);
+                    storage.Add(result);
+                }
+                else if (!storage.ContainsKey(segmentKey))
+                {
+                    var result = CreateStrategyHashSegment(false, FilterRule, other.Segments.ToArray());
+                    storage.Add(result);
+                    hashStorage = result.Value;
+                }
+                else
+                {
+                    hashStorage = storage[segmentKey];
+                }
             }
             return hashStorage.Hash == other.Hash;
         }
