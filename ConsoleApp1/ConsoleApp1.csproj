@@ -41,6 +41,12 @@
         </Content>
     </ItemGroup>
 
+    <ItemGroup>
+        <Content Include="..\Docs\Mock10rb.csv" Link="Mock10rb.csv">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="Autofac" Version="6.5.0" />
   </ItemGroup>
