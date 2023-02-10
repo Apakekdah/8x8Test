@@ -176,10 +176,10 @@ namespace ConsoleApp1
                 StringBuilder sb = new StringBuilder();
                 foreach (var id in lst)
                 {
-                    sb.AppendLine($"{idx} \t\t{id.ToString()}");
+                    sb.AppendLine($"{idx} \t\t{id}");
                     idx++;
                 }
-                Console.WriteLine($"Found : {sb.ToString()}");
+                Console.WriteLine($"Found : {sb}");
 
                 lst.Clear();
             }
