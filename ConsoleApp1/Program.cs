@@ -4,8 +4,10 @@ using _8x8.Interfaces;
 using _8x8.Models;
 using Autofac;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 
@@ -153,15 +155,18 @@ namespace ConsoleApp1
                 var fRules = CreateFilterRaw();
 
                 Console.WriteLine("Begin seeks");
-                List<int> lst = new List<int>();
+                ConcurrentBag<int> lst = new ConcurrentBag<int>();
 
                 sw.Restart();
 
-                foreach (var fr in fRules)
-                {
-                    var found = sff4.FindRule<int>(fr);
-                    lst.Add(found.RuleId);
-                }
+                fRules.
+                    AsParallel()
+                    .WithDegreeOfParallelism(5)
+                    .ForAll(fr =>
+                    {
+                        var found = sff4.FindRule<int>(fr);
+                        lst.Add(found.RuleId);
+                    });
 
                 sw.Stop();
 
