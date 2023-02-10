@@ -1,5 +1,4 @@
 ﻿using _8x8.Interfaces;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -18,8 +17,6 @@ namespace _8x8.Models
 
             var props = GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
-            IDictionary<string, string> dic = new Dictionary<string, string>();
-
             var header = props.Select(p => p.Name).OrderBy(c => c).ToArray();
 
             object val;
@@ -29,19 +26,13 @@ namespace _8x8.Models
                 val = pi.GetValue(this);
                 if (val == null)
                 {
-                    dic.Add(hdr, "<null>");
+                    builder.AppendLine($"{hdr} = <null>");
                 }
                 else
                 {
-                    dic.Add(hdr, val.ToString());
+                    builder.AppendLine($"{hdr} = {val}");
                 }
             }
-            foreach (var kvp in dic)
-            {
-                builder.AppendLine($"{kvp.Key} = {kvp.Value}");
-            }
-
-            dic.Clear();
 
             return builder.ToString();
         }
