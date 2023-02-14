@@ -26,6 +26,7 @@ namespace _8x8.Impls
             using (var filterRuleStrategy = scope.ResolveNamed<IFilterRuleStrategy>(scope.Tag.ToString(),
                 new NamedParameter("filterRule", filterRule)))
             {
+                //filterRuleStrategy.CreateAllCombination();
                 var founds = storage.Find<T>(filterRuleStrategy);
                 if (founds.Any())
                 {

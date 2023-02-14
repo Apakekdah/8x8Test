@@ -24,6 +24,12 @@ namespace _8x8.Impls
 
         public virtual T Hash { get; protected set; }
 
+        public virtual void CreateAllCombination()
+        {
+            var filters = GetInheritancePropertiesFromIFilterRule(FilterRule).Select(pi => pi.Name).ToArray();
+            Combinations = Enumerable.Range(1, filters.Count()).SelectMany(r => filters.Combinations(r));
+        }
+
         public abstract bool Equals([AllowNull] IFilterRuleStrategy<T> other);
 
         public override bool Equals(object obj)
@@ -45,5 +51,7 @@ namespace _8x8.Impls
                 }
             }
         }
+
+        protected IEnumerable<object[]> Combinations { get; private set; }
     }
 }

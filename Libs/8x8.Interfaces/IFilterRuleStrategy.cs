@@ -4,11 +4,11 @@ namespace _8x8.Interfaces
 {
     public interface IFilterRuleStrategy : IDisposable
     {
-
+        void CreateAllCombination();
     }
 
     public interface IFilterRuleStrategy<T> : IFilterRuleStrategy, IFilterInfo<T>, IEquatable<IFilterRuleStrategy<T>>
     {
-        public IFilterRule FilterRule { get; }
+        IFilterRule FilterRule { get; }
     }
 }

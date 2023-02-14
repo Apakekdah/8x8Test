@@ -12,5 +12,30 @@ namespace _8x8
             return false;
         }
 
+        public static IEnumerable<T[]> Combinations<T>(this T[] source, int dimension)
+        {
+            int sizeOf = source.Count();
+            T[] result = new T[dimension];
+            Stack<int> stack = new Stack<int>();
+            stack.Push(0);
+
+            while (stack.Count > 0)
+            {
+                int index = stack.Count - 1;
+                int value = stack.Pop();
+
+                while (value < sizeOf)
+                {
+                    result[index++] = source[(++value) - 1];
+                    stack.Push(value);
+
+                    if (index == dimension)
+                    {
+                        yield return (T[])result.Clone();
+                        break;
+                    }
+                }
+            }
+        }
     }
 }

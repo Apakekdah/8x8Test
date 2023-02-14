@@ -61,6 +61,22 @@ namespace _8x8.HashRulesStrategy
             storage?.Clear();
         }
 
+        public override void CreateAllCombination()
+        {
+            base.CreateAllCombination();
+
+            storage.Clear();
+
+            foreach (var segments in Combinations)
+            {
+                //var result = CreateStrategyHashSegment(false, FilterRule, (string[])Convert.ChangeType(segments, typeof(string[])));
+                var result = CreateStrategyHashSegment(false, FilterRule, Array.ConvertAll(segments, c => c?.ToString() ?? ""));
+                storage.Add(result);
+                Segments = result.Value.Segments;
+                Hash = result.Value.Hash;
+            }
+        }
+
         #region Private 
 
         private void Init()

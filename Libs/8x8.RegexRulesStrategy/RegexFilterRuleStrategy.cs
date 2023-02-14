@@ -23,6 +23,11 @@ namespace _8x8.RegexRulesStrategy
             return Regex.IsMatch(ValueMatch, other.Hash, RegexOptions.Singleline);
         }
 
+        public override void CreateAllCombination()
+        {
+            // no action needed
+        }
+
         private string ValueMatch { get; set; }
 
         #region Private

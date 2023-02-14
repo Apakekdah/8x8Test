@@ -161,7 +161,7 @@ namespace ConsoleApp1
 
                 fRules.
                     AsParallel()
-                    .WithDegreeOfParallelism(5)
+                    .WithDegreeOfParallelism(1)
                     .ForAll(fr =>
                     {
                         var found = sff4.FindRule<int>(fr);
