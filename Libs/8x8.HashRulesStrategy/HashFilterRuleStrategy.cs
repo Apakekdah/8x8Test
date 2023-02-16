@@ -27,7 +27,7 @@ namespace _8x8.HashRulesStrategy
             if (other == null) return false;
 
             HashStorage hashStorage;
-            lock (locker)
+            //lock (locker)
             {
                 var segmentKey = CreateSegmentKey(other.Segments);
                 if (string.IsNullOrEmpty(segmentKey) && !storage.ContainsKey(segmentKey))
@@ -144,10 +144,7 @@ namespace _8x8.HashRulesStrategy
             });
         }
 
-        private string CreateSegmentKey(IEnumerable<string> source)
-        {
-            return string.Join("+", source);
-        }
+        private string CreateSegmentKey(IEnumerable<string> source) => string.Join("+", source);
 
         /// <summary>
         /// Copy from : https://stackoverflow.com/a/9545731
@@ -157,11 +154,12 @@ namespace _8x8.HashRulesStrategy
         /// <returns></returns>
         static int CalculateHash(string read)
         {
-            int hashedValue = 307445734;
+            const int Hash = 307445734;
+            int hashedValue = Hash;
             for (int i = 0; i < read.Length; i++)
             {
                 hashedValue += read[i];
-                hashedValue *= 307445734;
+                hashedValue *= Hash;
             }
             return hashedValue;
         }

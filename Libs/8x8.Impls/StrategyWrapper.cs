@@ -1,6 +1,5 @@
 ﻿using _8x8.Interfaces;
 using Autofac;
-using System.Collections.Generic;
 
 namespace _8x8.Impls
 {
@@ -21,10 +20,6 @@ namespace _8x8.Impls
         public int Priority { get; private set; }
 
         public IStrategy Strategy { get; private set; }
-
-        public virtual IEnumerable<string> Segments { get; protected set; }
-
-        public virtual T Hash { get; protected set; }
 
         protected override void DisposeCore()
         {

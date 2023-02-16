@@ -12,6 +12,13 @@ namespace _8x8
             return false;
         }
 
+        /// <summary>
+        /// Compy from https://rosettacode.org/wiki/Combinations#C#
+        /// </summary>
+        /// <typeparam name="T">Type</typeparam>
+        /// <param name="source">Array source to expand</param>
+        /// <param name="dimension">Array dimension</param>
+        /// <returns></returns>
         public static IEnumerable<T[]> Combinations<T>(this T[] source, int dimension)
         {
             int sizeOf = source.Count();

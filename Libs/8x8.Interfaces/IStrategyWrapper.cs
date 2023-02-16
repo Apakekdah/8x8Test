@@ -9,7 +9,7 @@ namespace _8x8.Interfaces
         IStrategy Strategy { get; }
     }
 
-    public interface IStrategyWrapper<T> : IStrategyWrapper, IFilterInfo<T>
+    public interface IStrategyWrapper<T> : IStrategyWrapper
     {
         IFilterRuleStrategy<T> FilterRuleStrategy { get; }
     }
