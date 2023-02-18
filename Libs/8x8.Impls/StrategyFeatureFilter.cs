@@ -59,7 +59,7 @@ namespace _8x8.Impls
 
             ConcurrentBag<IStrategyWrapper> bags = new ConcurrentBag<IStrategyWrapper>();
 
-            dicRows.AsParallel().WithDegreeOfParallelism(1)
+            dicRows.AsParallel().WithDegreeOfParallelism(3)
                 .ForAll(d => bags.Add(ParseToStrategyWrapper(accessor, d)));
 
             storage.AddRange(bags);
