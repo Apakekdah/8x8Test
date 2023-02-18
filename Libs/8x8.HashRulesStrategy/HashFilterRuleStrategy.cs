@@ -10,21 +10,27 @@ namespace _8x8.HashRulesStrategy
 {
     public class HashFilterRuleStrategy : BaseFilterRuleStrategy<int>
     {
-        public readonly static int DefaultHash = 1;
+        public readonly static int DefaultHash = 3;
 
         private readonly IDictionary<string, HashStorage> storage;
 
-        private readonly object locker = new object();
+        private readonly ICollection<int> hashed;
+
+        private IEnumerable<PropertyInfo> filterProperties;
+        private IEnumerable<string> filterSegments;
 
         public HashFilterRuleStrategy(IFilterRule filterRule) : base(filterRule)
         {
             storage = new Dictionary<string, HashStorage>(StringComparer.InvariantCultureIgnoreCase);
+            hashed = new HashSet<int>();
             Init();
         }
 
         public override bool Equals([AllowNull] IFilterRuleStrategy<int> other)
         {
             if (other == null) return false;
+
+            return hashed.Contains(other.Hash);
 
             HashStorage hashStorage;
             //lock (locker)
@@ -42,7 +48,7 @@ namespace _8x8.HashRulesStrategy
                 }
                 else if (!storage.ContainsKey(segmentKey))
                 {
-                    var result = CreateStrategyHashSegment(false, FilterRule, other.Segments.ToArray());
+                    var result = CreateStrategyHashSegment(false, other.Segments.ToArray());
                     storage.Add(result);
                     hashStorage = result.Value;
                 }
@@ -58,7 +64,8 @@ namespace _8x8.HashRulesStrategy
         {
             base.DisposeCore();
 
-            storage?.Clear();
+            storage.Clear();
+            hashed.Clear();
         }
 
         public override void CreateAllCombination()
@@ -67,27 +74,58 @@ namespace _8x8.HashRulesStrategy
 
             storage.Clear();
 
+            IEnumerable<string> filters = GetInheritancePropertiesFromIFilterRule(FilterRule).Select(pi => pi.Name).OrderBy(c => c);
+            KeyValuePair<string, HashStorage> result;
+
             foreach (var segments in Combinations)
             {
-                //var result = CreateStrategyHashSegment(false, FilterRule, (string[])Convert.ChangeType(segments, typeof(string[])));
-                var result = CreateStrategyHashSegment(false, FilterRule, Array.ConvertAll(segments, c => c?.ToString() ?? ""));
+                //var result = CreateStrategyHashSegment(false, (string[])Convert.ChangeType(segments, typeof(string[])));
+                //var result = CreateStrategyHashSegment(false, Array.ConvertAll(segments, c => c?.ToString() ?? ""));
+                result = CreateStrategyHashSegment(false, CreateFakeSegments(filters, segments));
                 storage.Add(result);
                 Segments = result.Value.Segments;
                 Hash = result.Value.Hash;
+                hashed.Add(result.Value.Hash);
             }
+
+            result = CreateStrategyHashSegment(false);
+            storage.Add(result);
+            Segments = result.Value.Segments;
+            Hash = result.Value.Hash;
+            hashed.Add(result.Value.Hash);
         }
 
         #region Private 
 
         private void Init()
         {
-            var result = CreateStrategyHashSegment(true, FilterRule);
+            filterProperties = GetInheritancePropertiesFromIFilterRule(FilterRule).ToArray();
+            filterSegments = filterProperties.Select(pi => pi.Name).OrderBy(c => c).ToArray();
+
+            var result = CreateStrategyHashSegment(true);
             storage.Add(result);
             Segments = result.Value.Segments;
             Hash = result.Value.Hash;
         }
 
-        private KeyValuePair<string, HashStorage> CreateStrategyHashSegment(bool init, IFilterRule filterRule, params string[] segments)
+        private string[] CreateFakeSegments(IEnumerable<string> filters, object[] segments)
+        {
+            ICollection<string> newSegments = new HashSet<string>();
+            foreach (var fs in filters)
+            {
+                if (segments.Contains(fs))
+                {
+                    newSegments.Add(fs);
+                }
+                else
+                {
+                    newSegments.Add($"Fake_{fs}");
+                }
+            }
+            return newSegments.ToArray();
+        }
+
+        private KeyValuePair<string, HashStorage> CreateStrategyHashSegment(bool init, params string[] segments)
         {
             int hash = DefaultHash;
             Type stringType = typeof(string);
@@ -95,7 +133,6 @@ namespace _8x8.HashRulesStrategy
             int idx = 0;
             PropertyInfo pi;
             int segmentHash = 0;
-            IEnumerable<PropertyInfo> filters = GetInheritancePropertiesFromIFilterRule(filterRule);
 
             object value;
             ICollection<string> lstSegments = new HashSet<string>();
@@ -104,24 +141,42 @@ namespace _8x8.HashRulesStrategy
             {
                 if (init)
                 {
-                    segments = filters.Select(c => c.Name).ToArray();
+                    segments = filterSegments.ToArray();
                 }
                 else
                 {
-                    return new KeyValuePair<string, HashStorage>(string.Empty, new HashStorage());
+                    for (idx = 1; idx <= filterProperties.Count(); idx++)
+                    {
+                        segmentHash = idx;
+                        segmentHash += hash;
+                        hash *= segmentHash;
+                    }
+                    return new KeyValuePair<string, HashStorage>(string.Empty, new HashStorage()
+                    {
+                        Hash = hash
+                    });
                 }
             }
 
             foreach (var segment in segments)
             {
-                segmentHash = idx;
-                pi = filters.FirstOrDefault(p => p.Name.Equals(segment));
-                if (pi == null) continue;
-                value = Accesor[filterRule, pi.Name];
+                segmentHash = ++idx;
+                pi = filterProperties.FirstOrDefault(p => p.Name.Equals(segment));
+                if (pi == null)
+                {
+                    segmentHash += hash;
+                    hash *= segmentHash;
+                    continue;
+                }
+                value = Accesor[FilterRule, pi.Name];
                 if (pi.PropertyType.Equals(stringType))
                 {
                     if (StrategyFilterRule.ANY.Equals((string)value, StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        segmentHash += hash;
+                        hash *= segmentHash;
                         continue;
+                    }
                     segmentHash += CalculateHash((string)value);
                     hash *= segmentHash;
                 }
@@ -129,7 +184,6 @@ namespace _8x8.HashRulesStrategy
                 {
                     hash += value.GetHashCode();
                 }
-                idx++;
                 lstSegments.Add(segment);
             }
 
@@ -155,6 +209,7 @@ namespace _8x8.HashRulesStrategy
         static int CalculateHash(string read)
         {
             const int Hash = 307445734;
+            if (read == null) return Hash;
             int hashedValue = Hash;
             for (int i = 0; i < read.Length; i++)
             {

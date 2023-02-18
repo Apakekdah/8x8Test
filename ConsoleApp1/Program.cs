@@ -59,7 +59,8 @@ namespace ConsoleApp1
 
                 sw.Restart();
 
-                var strategy4 = sff4.FindRule<int>(new FilterRule<string, string, string, string>("AAA", "BBB", "CCC", "DDD"));
+                FilterRule<string, string, string, string> filterRule = new[] { "AAA", "BBB", "CCC", "DDD" };
+                var strategy4 = sff4.FindRule<int>(filterRule);
 
                 sw.Stop();
 
