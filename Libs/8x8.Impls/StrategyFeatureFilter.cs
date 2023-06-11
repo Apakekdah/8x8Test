@@ -5,7 +5,6 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 
 namespace _8x8.Impls
 {
@@ -73,23 +72,25 @@ namespace _8x8.Impls
         private IStrategyWrapper ParseToStrategyWrapper(TypeAccessor accessor, IDictionary<string, string> row)
         {
             var typeT = typeof(TStrategy);
-            PropertyInfo pi;
+            //PropertyInfo pi;
 
             Type nullType;
 
             TStrategy strategy = new TStrategy();
+            var members = accessor.GetMembers();
             foreach (var kvp in row)
             {
-                pi = typeT.GetProperty(kvp.Key, BindingFlags.Public | BindingFlags.Instance | BindingFlags.SetProperty);
-                if (pi != null)
+                var member = members.First(m => m.Name.Equals(kvp.Key));
+                //pi = typeT.GetProperty(kvp.Key, BindingFlags.Public | BindingFlags.Instance | BindingFlags.SetProperty);
+                if (member != null)
                 {
                     if (!string.IsNullOrEmpty(kvp.Value))
                     {
-                        if ((nullType = Nullable.GetUnderlyingType(pi.PropertyType)) == null)
+                        if ((nullType = Nullable.GetUnderlyingType(member.Type)) == null)
                         {
-                            nullType = pi.PropertyType;
+                            nullType = member.Type;
                         }
-                        accessor[strategy, pi.Name] = Convert.ChangeType(kvp.Value, nullType);
+                        accessor[strategy, member.Name] = Convert.ChangeType(kvp.Value, nullType);
                     }
                 }
             }

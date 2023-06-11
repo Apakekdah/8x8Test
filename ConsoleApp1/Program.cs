@@ -115,7 +115,7 @@ namespace ConsoleApp1
                    .ResolveNamed<IStrategyFeatureFilter<StrategyRule3<string, string, string>>>(KeyDI.STRATEGY_FILTER_3,
                        new NamedParameter("method", KeyDI.HASH));
 
-                sff3.Load(StrategyFilterRule.SAMPLE_DATA);
+                sff3.Load(StrategyFilterRule.SAMPLE_DATA3);
 
                 sw.Stop();
 
